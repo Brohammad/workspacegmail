@@ -190,8 +190,92 @@ def send_email_alert(spec_avg, hall_avg, failed_checks):
         return False
 
 
+def send_discord_status(spec_avg, hall_avg, passed=True):
+    """Send status update to Discord on every run"""
+    
+    webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    
+    if not webhook_url:
+        print("⚠️ Discord webhook not configured, skipping Discord status")
+        return False
+    
+    # Green for pass, Red for fail
+    color = 0x00FF00 if passed else 0xFF0000
+    emoji = "✅" if passed else "❌"
+    title = f"{emoji} ZenBot Quality Check {'Passed' if passed else 'Failed'}"
+    
+    # Build Discord embed
+    embed = {
+        "title": title,
+        "description": f"Automated evaluation completed at {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}",
+        "color": color,
+        "timestamp": datetime.now().isoformat(),
+        "fields": [
+            {
+                "name": "📊 Spec Accuracy",
+                "value": f"**{spec_avg:.1%}**\n{'✅ Pass' if spec_avg >= 0.08 else '❌ Fail'} (threshold: ≥8%)",
+                "inline": True
+            },
+            {
+                "name": "🔍 Hallucination Check",
+                "value": f"**{hall_avg:.1%}**\n{'✅ Pass' if hall_avg >= 0.50 else '❌ Fail'} (threshold: ≥50%)",
+                "inline": True
+            },
+            {
+                "name": "📈 Status",
+                "value": f"{'🎉 All quality checks passed!' if passed else '⚠️ Quality degradation detected'}",
+                "inline": False
+            },
+            {
+                "name": "🔗 Links",
+                "value": "[GitHub Actions](https://github.com/Brohammad/workspacegmail/actions) • [Repository](https://github.com/Brohammad/workspacegmail) • [LangSmith](https://smith.langchain.com/)",
+                "inline": False
+            }
+        ],
+        "footer": {
+            "text": "ZenBot Evaluation System • Automated Status"
+        },
+        "thumbnail": {
+            "url": "https://cdn-icons-png.flaticon.com/512/6134/6134346.png"
+        }
+    }
+    
+    payload = {
+        "username": "ZenBot Monitor",
+        "avatar_url": "https://cdn-icons-png.flaticon.com/512/6134/6134346.png",
+        "embeds": [embed]
+    }
+    
+    try:
+        import urllib.request
+        import json as json_lib
+        
+        print(f"💬 Sending Discord status update...")
+        
+        req = urllib.request.Request(
+            webhook_url,
+            data=json_lib.dumps(payload).encode('utf-8'),
+            headers={
+                'Content-Type': 'application/json',
+                'User-Agent': 'ZenBot-Monitor/1.0'
+            }
+        )
+        
+        with urllib.request.urlopen(req) as response:
+            if response.status == 204:
+                print(f"✅ Discord status sent successfully")
+                return True
+            else:
+                print(f"⚠️ Discord webhook returned status {response.status}")
+                return False
+                
+    except Exception as e:
+        print(f"❌ Failed to send Discord status: {e}")
+        return False
+
+
 def send_discord_alert(spec_avg, hall_avg, failed_checks):
-    """Send alert to Discord webhook"""
+    """Send detailed alert to Discord webhook when checks fail"""
     
     webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
     
@@ -199,13 +283,12 @@ def send_discord_alert(spec_avg, hall_avg, failed_checks):
         print("⚠️ Discord webhook not configured, skipping Discord alert")
         return False
     
-    # Determine embed color based on severity
-    # Red for failures, Orange for warnings
-    color = 0xFF0000 if spec_avg < 0.08 or hall_avg < 0.50 else 0xFFA500
+    # Red for failures
+    color = 0xFF0000
     
     # Build Discord embed
     embed = {
-        "title": "⚠️ ZenBot Quality Check Failed",
+        "title": "🚨 ZenBot Quality Alert - Action Required",
         "description": f"The automated quality evaluation detected **{len(failed_checks)}** issue(s)",
         "color": color,
         "timestamp": datetime.now().isoformat(),
@@ -328,11 +411,19 @@ def main():
         else:
             print("⚠️ No alerts were sent (credentials not configured)")
         
+        # Also send status update
+        send_discord_status(spec_avg, hall_avg, passed=False)
+        
         sys.exit(1)
 
+    # All checks passed - send success status to Discord
     print('✅ All checks passed!')
     print(f'  Spec accuracy: {spec_avg:.3f} >= 0.08')
     print(f'  Hallucination: {hall_avg:.3f} >= 0.50')
+    
+    # Send success status to Discord
+    send_discord_status(spec_avg, hall_avg, passed=True)
+    
     sys.exit(0)
 
 
