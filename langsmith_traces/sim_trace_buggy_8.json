@@ -1,7 +1,17 @@
 {
   "question": "Delivery cost to Ranchi?",
   "version": "buggy",
-  "retrieved_documents": [],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: Delivery cost to Ranchi?\n\nAnswer:",
-  "answer": "I do not have the information to answer your question."
+  "retrieved_documents": [
+    {
+      "id": "delivery_cost_ranchi_old",
+      "title": "Old delivery costs",
+      "text": "Delivery cost to Ranchi: ₹3,000 per MT.",
+      "metadata": {
+        "source": "logistics_pricing_2023.pdf",
+        "date": "2023-06-01"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: delivery_cost_ranchi_old\nTitle: Old delivery costs\nSource: logistics_pricing_2023.pdf\nDate: 2023-06-01\nContent: Delivery cost to Ranchi: ₹3,000 per MT.\n\nUser question: Delivery cost to Ranchi?\n\nAnswer:",
+  "answer": "Delivery cost to Ranchi: ₹3,000 per MT (logistics\\_pricing\\_2023.pdf, 2023-06-01)."
 }

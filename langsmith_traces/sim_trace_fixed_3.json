@@ -1,7 +1,17 @@
 {
   "question": "What's the delivery time to Ranchi for 100 MT?",
   "version": "fixed",
-  "retrieved_documents": [],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: What's the delivery time to Ranchi for 100 MT?\n\nAnswer:",
-  "answer": "I do not have the information to answer your question about delivery time to Ranchi for 100 MT because no documents were provided."
+  "retrieved_documents": [
+    {
+      "id": "delivery_ranchi_current",
+      "title": "Delivery times and logistics",
+      "text": "Delivery time to Ranchi: 5-7 business days for orders up to 200 MT. Express delivery available for 3-4 days at additional cost.",
+      "metadata": {
+        "source": "logistics_guide_2024.pdf",
+        "date": "2024-11-01"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: delivery_ranchi_current\nTitle: Delivery times and logistics\nSource: logistics_guide_2024.pdf\nDate: 2024-11-01\nContent: Delivery time to Ranchi: 5-7 business days for orders up to 200 MT. Express delivery available for 3-4 days at additional cost.\n\nUser question: What's the delivery time to Ranchi for 100 MT?\n\nAnswer:",
+  "answer": "Delivery time to Ranchi is 5-7 business days for orders up to 200 MT (logistics_guide_2024.pdf, 2024-11-01)."
 }

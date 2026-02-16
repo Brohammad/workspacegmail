@@ -10,8 +10,26 @@
         "source": "spec_sheet_2024_current.pdf",
         "date": "2024-11-01"
       }
+    },
+    {
+      "id": "fe500_vs_fe550d_current",
+      "title": "Fe 500 vs Fe 550D comparison",
+      "text": "Fe 550D has higher yield strength (565 N/mm² vs 500 N/mm²), better ductility (minimum elongation 14.5% vs 12%), and enhanced weldability, making it suitable for seismic zones as per IS 13920. Fe 500 is standard grade for general construction. Fe 550D has approximately 8-10% price premium over Fe 500.",
+      "metadata": {
+        "source": "product_comparison_2024.pdf",
+        "date": "2024-11-01"
+      }
+    },
+    {
+      "id": "fe550d_tensile_current",
+      "title": "Fe 550D tensile strength specifications",
+      "text": "Minimum tensile strength: 585 N/mm² as per IS 1786:2008. Tensile to yield ratio: minimum 1.08.",
+      "metadata": {
+        "source": "spec_sheet_2024_current.pdf",
+        "date": "2024-11-01"
+      }
     }
   ],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm² (per IS 1786:2008).\n\nUser question: What's the tensile strength of Fe 550D 16mm?\n\nAnswer:",
-  "answer": "I don't have the tensile strength of Fe 550D 16mm in the provided documents."
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm² (per IS 1786:2008).\n\nDocument ID: fe500_vs_fe550d_current\nTitle: Fe 500 vs Fe 550D comparison\nSource: product_comparison_2024.pdf\nDate: 2024-11-01\nContent: Fe 550D has higher yield strength (565 N/mm² vs 500 N/mm²), better ductility (minimum elongation 14.5% vs 12%), and enhanced weldability, making it suitable for seismic zones as per IS 13920. Fe 500 is standard grade for general construction. Fe 550D has approximately 8-10% price premium over Fe 500.\n\nDocument ID: fe550d_tensile_current\nTitle: Fe 550D tensile strength specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Minimum tensile strength: 585 N/mm² as per IS 1786:2008. Tensile to yield ratio: minimum 1.08.\n\nUser question: What's the tensile strength of Fe 550D 16mm?\n\nAnswer:",
+  "answer": "The minimum tensile strength of Fe 550D is 585 N/mm² as per IS 1786:2008 (spec_sheet_2024_current.pdf, 2024-11-01)."
 }

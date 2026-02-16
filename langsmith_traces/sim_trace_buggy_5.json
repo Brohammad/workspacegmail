@@ -13,5 +13,5 @@
     }
   ],
   "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_old\nTitle: Fe 550D old spec\nSource: old_spec_2019.pdf\nDate: 2019-03-15\nContent: Yield Strength: 550 N/mm².\n\nUser question: What's the difference between Fe 500 and Fe 550D?\n\nAnswer:",
-  "answer": "I don't have information about Fe 500, so I cannot compare it to Fe 550D. The Fe 550D Yield Strength is 550 N/mm² (old_spec_2019.pdf, 2019-03-15)."
+  "answer": "I don't have information about Fe 500. According to old_spec_2019.pdf (2019-03-15), Fe 550D has a Yield Strength of 550 N/mm²."
 }

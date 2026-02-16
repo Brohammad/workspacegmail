@@ -1,7 +1,17 @@
 {
   "question": "Delivery cost to Ranchi?",
   "version": "fixed",
-  "retrieved_documents": [],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: Delivery cost to Ranchi?\n\nAnswer:",
-  "answer": "I do not have the information to answer your question about delivery costs to Ranchi, as no documents were provided."
+  "retrieved_documents": [
+    {
+      "id": "delivery_cost_ranchi_current",
+      "title": "Delivery costs by location",
+      "text": "Delivery cost to Ranchi: ₹2,500 per MT. Delivery cost to Jamshedpur: ₹1,800 per MT. Delivery cost to Dhanbad: ₹2,200 per MT.",
+      "metadata": {
+        "source": "logistics_pricing_2024.pdf",
+        "date": "2024-11-01"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: delivery_cost_ranchi_current\nTitle: Delivery costs by location\nSource: logistics_pricing_2024.pdf\nDate: 2024-11-01\nContent: Delivery cost to Ranchi: ₹2,500 per MT. Delivery cost to Jamshedpur: ₹1,800 per MT. Delivery cost to Dhanbad: ₹2,200 per MT.\n\nUser question: Delivery cost to Ranchi?\n\nAnswer:",
+  "answer": "Delivery cost to Ranchi: ₹2,500 per MT (logistics\\_pricing\\_2024.pdf, 2024-11-01)."
 }

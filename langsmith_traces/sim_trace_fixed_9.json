@@ -10,8 +10,26 @@
         "source": "pricing_november_2024.pdf",
         "date": "2024-11-15"
       }
+    },
+    {
+      "id": "tmt_16mm_price_current",
+      "title": "TMT 16mm pricing",
+      "text": "Price: ₹53,200 per MT (as of November 2024).",
+      "metadata": {
+        "source": "pricing_november_2024.pdf",
+        "date": "2024-11-15"
+      }
+    },
+    {
+      "id": "tmt_chemical_composition_current",
+      "title": "TMT bar chemical composition",
+      "text": "TMT bars chemical composition as per IS 1786:2008: Carbon (C): maximum 0.25%, Manganese (Mn): present for strength, Sulfur (S): maximum 0.055%, Phosphorus (P): maximum 0.055%. Actual composition varies by grade and manufacturer specifications.",
+      "metadata": {
+        "source": "technical_specs_2024.pdf",
+        "date": "2024-11-01"
+      }
     }
   ],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: ₹52,500 per MT.\n\nUser question: What chemicals are in TMT bars?\n\nAnswer:",
-  "answer": "I do not have the information about the chemicals in TMT bars. (No document provided this information)"
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: ₹52,500 per MT.\n\nDocument ID: tmt_16mm_price_current\nTitle: TMT 16mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: ₹53,200 per MT (as of November 2024).\n\nDocument ID: tmt_chemical_composition_current\nTitle: TMT bar chemical composition\nSource: technical_specs_2024.pdf\nDate: 2024-11-01\nContent: TMT bars chemical composition as per IS 1786:2008: Carbon (C): maximum 0.25%, Manganese (Mn): present for strength, Sulfur (S): maximum 0.055%, Phosphorus (P): maximum 0.055%. Actual composition varies by grade and manufacturer specifications.\n\nUser question: What chemicals are in TMT bars?\n\nAnswer:",
+  "answer": "TMT bars contain Carbon (C): maximum 0.25%, Manganese (Mn), Sulfur (S): maximum 0.055%, and Phosphorus (P): maximum 0.055% as per IS 1786:2008 (technical_specs_2024.pdf, 2024-11-01)."
 }

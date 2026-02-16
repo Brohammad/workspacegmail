@@ -1,7 +1,17 @@
 {
   "question": "What's the delivery time to Ranchi for 100 MT?",
   "version": "buggy",
-  "retrieved_documents": [],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: What's the delivery time to Ranchi for 100 MT?\n\nAnswer:",
-  "answer": "I do not have the information to answer your question about delivery time to Ranchi for 100 MT, as no documents were retrieved."
+  "retrieved_documents": [
+    {
+      "id": "delivery_ranchi_old",
+      "title": "Old delivery times",
+      "text": "Delivery time to Ranchi: 7-10 business days.",
+      "metadata": {
+        "source": "logistics_guide_2023.pdf",
+        "date": "2023-06-01"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: delivery_ranchi_old\nTitle: Old delivery times\nSource: logistics_guide_2023.pdf\nDate: 2023-06-01\nContent: Delivery time to Ranchi: 7-10 business days.\n\nUser question: What's the delivery time to Ranchi for 100 MT?\n\nAnswer:",
+  "answer": "Delivery time to Ranchi is 7-10 business days (logistics\\_guide\\_2023.pdf, 2023-06-01). I don't have the delivery time for 100 MT."
 }

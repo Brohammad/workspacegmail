@@ -3,15 +3,15 @@
   "version": "fixed",
   "retrieved_documents": [
     {
-      "id": "tmt_12mm_price_current",
-      "title": "TMT 12mm pricing",
-      "text": "Price: ₹52,500 per MT.",
+      "id": "tmt_16mm_price_current",
+      "title": "TMT 16mm pricing",
+      "text": "Price: ₹53,200 per MT (as of November 2024).",
       "metadata": {
         "source": "pricing_november_2024.pdf",
         "date": "2024-11-15"
       }
     }
   ],
-  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: ₹52,500 per MT.\n\nUser question: Price for TMT 16mm?\n\nAnswer:",
-  "answer": "I do not have the price for TMT 16mm. I only have the price for TMT 12mm (pricing_november_2024.pdf, 2024-11-15)."
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_16mm_price_current\nTitle: TMT 16mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: ₹53,200 per MT (as of November 2024).\n\nUser question: Price for TMT 16mm?\n\nAnswer:",
+  "answer": "The price for TMT 16mm is ₹53,200 per MT (as of November 2024) (pricing_november_2024.pdf, 2024-11-15)."
 }
