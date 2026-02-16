@@ -18,6 +18,11 @@ import json
 import re
 from pathlib import Path
 import sys
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import os
+from datetime import datetime
 
 
 def spec_score(prediction: str, expected: str):
@@ -56,6 +61,105 @@ def hallucination_score(prediction: str):
         return 0.5
 
 
+def send_email_alert(spec_avg, hall_avg, failed_checks):
+    """Send email alert when quality checks fail"""
+    
+    sender = os.environ.get("EMAIL_SENDER")
+    password = os.environ.get("EMAIL_PASSWORD")
+    recipient = os.environ.get("EMAIL_RECIPIENT")
+    
+    # Skip if email not configured
+    if not all([sender, password, recipient]):
+        print("⚠️ Email credentials not configured, skipping alert")
+        return False
+    
+    # Create message
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = f'⚠️ ZenBot Quality Alert - {len(failed_checks)} Check(s) Failed'
+    msg['From'] = sender
+    msg['To'] = recipient
+    
+    # HTML email body
+    html = f"""
+    <html>
+    <head>
+        <style>
+            body {{ font-family: Arial, sans-serif; }}
+            table {{ border-collapse: collapse; width: 100%; margin: 20px 0; }}
+            th, td {{ border: 1px solid #ddd; padding: 12px; text-align: left; }}
+            th {{ background-color: #f44336; color: white; }}
+            .fail {{ color: #f44336; font-weight: bold; }}
+            .pass {{ color: #4CAF50; font-weight: bold; }}
+            h2 {{ color: #333; }}
+            .timestamp {{ color: #666; font-size: 14px; }}
+        </style>
+    </head>
+    <body>
+        <h2>🤖 ZenBot Quality Check Failed</h2>
+        <p class="timestamp">Generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}</p>
+        
+        <p>The automated quality evaluation detected the following issues:</p>
+        
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Score</th>
+                <th>Threshold</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>Spec Accuracy</td>
+                <td>{spec_avg:.1%}</td>
+                <td>≥ 8%</td>
+                <td class="{'fail' if spec_avg < 0.08 else 'pass'}">
+                    {"❌ FAILED" if spec_avg < 0.08 else "✅ PASSED"}
+                </td>
+            </tr>
+            <tr>
+                <td>Hallucination Check</td>
+                <td>{hall_avg:.1%}</td>
+                <td>≥ 50%</td>
+                <td class="{'fail' if hall_avg < 0.50 else 'pass'}">
+                    {"❌ FAILED" if hall_avg < 0.50 else "✅ PASSED"}
+                </td>
+            </tr>
+        </table>
+        
+        <h3>Failed Checks:</h3>
+        <ul>
+            {"".join(f"<li>{check}</li>" for check in failed_checks)}
+        </ul>
+        
+        <h3>Recommended Actions:</h3>
+        <ol>
+            <li>Review failed test cases in <a href="https://github.com/Brohammad/workspacegmail/actions">GitHub Actions log</a></li>
+            <li>Check recent changes to ZenBot knowledge base</li>
+            <li>Run local evaluation: <code>python evaluators.py</code></li>
+            <li>Consider expanding knowledge base with more documents (see Priority 1 improvements)</li>
+        </ol>
+        
+        <hr>
+        <p><small>This is an automated alert from ZenBot Evaluation System</small></p>
+        <p><small>Repository: <a href="https://github.com/Brohammad/workspacegmail">Brohammad/workspacegmail</a></small></p>
+    </body>
+    </html>
+    """
+    
+    msg.attach(MIMEText(html, 'html'))
+    
+    # Send email via Gmail SMTP
+    try:
+        print(f"📧 Sending email alert to {recipient}...")
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(sender, password)
+            server.send_message(msg)
+        print(f"✅ Alert email sent successfully to {recipient}")
+        return True
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
+        return False
+
+
 def main():
     tests_path = Path('test_cases.json')
     preds_path = Path('predictions.json')
@@ -81,14 +185,26 @@ def main():
     print(f"Spec accuracy avg: {spec_avg:.3f}")
     print(f"Hallucination score avg: {hall_avg:.3f}")
 
+    # Collect failed checks
+    failed_checks = []
+    threshold_failed = False
+    
     # Thresholds - realistic based on current baseline
     # Baseline: spec=0.10, hallucination=0.55
     # Allow 20% degradation buffer for safety
     if spec_avg < 0.08:
+        failed_checks.append(f'Spec accuracy too low: {spec_avg:.1%} < 8%')
+        threshold_failed = True
         print(f'SPEC ACCURACY THRESHOLD FAILED: {spec_avg:.3f} < 0.08')
-        sys.exit(1)
+    
     if hall_avg < 0.50:
+        failed_checks.append(f'Hallucination score too low: {hall_avg:.1%} < 50%')
+        threshold_failed = True
         print(f'HALLUCINATION THRESHOLD FAILED: {hall_avg:.3f} < 0.50')
+    
+    # Send email alert if any checks failed
+    if threshold_failed:
+        send_email_alert(spec_avg, hall_avg, failed_checks)
         sys.exit(1)
 
     print('✅ All checks passed!')

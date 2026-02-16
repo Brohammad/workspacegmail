@@ -37,5 +37,9 @@ jobs:
           python3 evaluators.py --tests test_cases.json --predictions predictions.json
 
       - name: Run checks (fail on threshold)
+        env:
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
         run: |
           python3 scripts/check_results.py
