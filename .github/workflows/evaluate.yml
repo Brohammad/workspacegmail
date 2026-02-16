@@ -19,6 +19,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate predictions from traces
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          LANGSMITH_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
+        run: |
+          python3 scripts/langsmith_to_predictions.py --tests test_cases.json --trace-file langsmith_traces/all_traces_fixed.json --out predictions.json
+
       - name: Run evaluator
         run: |
           python3 evaluators.py --tests test_cases.json --predictions predictions.json
