@@ -190,6 +190,91 @@ def send_email_alert(spec_avg, hall_avg, failed_checks):
         return False
 
 
+def send_discord_alert(spec_avg, hall_avg, failed_checks):
+    """Send alert to Discord webhook"""
+    
+    webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    
+    if not webhook_url:
+        print("⚠️ Discord webhook not configured, skipping Discord alert")
+        return False
+    
+    # Determine embed color based on severity
+    # Red for failures, Orange for warnings
+    color = 0xFF0000 if spec_avg < 0.08 or hall_avg < 0.50 else 0xFFA500
+    
+    # Build Discord embed
+    embed = {
+        "title": "⚠️ ZenBot Quality Check Failed",
+        "description": f"The automated quality evaluation detected **{len(failed_checks)}** issue(s)",
+        "color": color,
+        "timestamp": datetime.now().isoformat(),
+        "fields": [
+            {
+                "name": "📊 Spec Accuracy",
+                "value": f"{spec_avg:.1%} {'❌' if spec_avg < 0.08 else '✅'} (threshold: ≥8%)",
+                "inline": True
+            },
+            {
+                "name": "🔍 Hallucination Check",
+                "value": f"{hall_avg:.1%} {'❌' if hall_avg < 0.50 else '✅'} (threshold: ≥50%)",
+                "inline": True
+            },
+            {
+                "name": "\u200b",  # Empty field for layout
+                "value": "\u200b",
+                "inline": True
+            },
+            {
+                "name": "❌ Failed Checks",
+                "value": "\n".join([f"• {check}" for check in failed_checks]) if failed_checks else "None",
+                "inline": False
+            },
+            {
+                "name": "🔗 Actions",
+                "value": "[View GitHub Actions Run](https://github.com/Brohammad/workspacegmail/actions) • [View Repository](https://github.com/Brohammad/workspacegmail)",
+                "inline": False
+            }
+        ],
+        "footer": {
+            "text": "ZenBot Evaluation System • Automated Alert"
+        }
+    }
+    
+    payload = {
+        "username": "ZenBot Monitor",
+        "avatar_url": "https://cdn-icons-png.flaticon.com/512/6134/6134346.png",  # Robot icon
+        "embeds": [embed]
+    }
+    
+    try:
+        import urllib.request
+        import json as json_lib
+        
+        print(f"💬 Sending Discord alert...")
+        
+        req = urllib.request.Request(
+            webhook_url,
+            data=json_lib.dumps(payload).encode('utf-8'),
+            headers={
+                'Content-Type': 'application/json',
+                'User-Agent': 'ZenBot-Monitor/1.0'
+            }
+        )
+        
+        with urllib.request.urlopen(req) as response:
+            if response.status == 204:
+                print(f"✅ Discord alert sent successfully")
+                return True
+            else:
+                print(f"⚠️ Discord webhook returned status {response.status}")
+                return False
+                
+    except Exception as e:
+        print(f"❌ Failed to send Discord alert: {e}")
+        return False
+
+
 def main():
     tests_path = Path('test_cases.json')
     preds_path = Path('predictions.json')
@@ -232,9 +317,17 @@ def main():
         threshold_failed = True
         print(f'HALLUCINATION THRESHOLD FAILED: {hall_avg:.3f} < 0.50')
     
-    # Send email alert if any checks failed
+    # Send alerts if any checks failed
     if threshold_failed:
-        send_email_alert(spec_avg, hall_avg, failed_checks)
+        # Send both email and Discord alerts (parallel - don't fail if one fails)
+        email_sent = send_email_alert(spec_avg, hall_avg, failed_checks)
+        discord_sent = send_discord_alert(spec_avg, hall_avg, failed_checks)
+        
+        if email_sent or discord_sent:
+            print(f"📢 Alerts sent: Email={'✅' if email_sent else '❌'}, Discord={'✅' if discord_sent else '❌'}")
+        else:
+            print("⚠️ No alerts were sent (credentials not configured)")
+        
         sys.exit(1)
 
     print('✅ All checks passed!')
