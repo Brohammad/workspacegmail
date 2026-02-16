@@ -1,0 +1,17 @@
+{
+  "question": "Price for TMT 16mm?",
+  "version": "buggy",
+  "retrieved_documents": [
+    {
+      "id": "tmt_12mm_price_old",
+      "title": "TMT 12mm old pricing",
+      "text": "Price: ₹48,000 per MT.",
+      "metadata": {
+        "source": "pricing_Q2_2024.pdf",
+        "date": "2024-06-01"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_old\nTitle: TMT 12mm old pricing\nSource: pricing_Q2_2024.pdf\nDate: 2024-06-01\nContent: Price: ₹48,000 per MT.\n\nUser question: Price for TMT 16mm?\n\nAnswer:",
+  "answer": "I don't have the price for TMT 16mm. The document pricing_Q2_2024.pdf (2024-06-01) only contains the price for TMT 12mm."
+}

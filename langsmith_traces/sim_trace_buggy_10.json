@@ -1,0 +1,17 @@
+{
+  "question": "Can I use Fe 550D for a 20-story building foundation?",
+  "version": "buggy",
+  "retrieved_documents": [
+    {
+      "id": "fe550d_16mm_spec_old",
+      "title": "Fe 550D old spec",
+      "text": "Yield Strength: 550 N/mm².",
+      "metadata": {
+        "source": "old_spec_2019.pdf",
+        "date": "2019-03-15"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_old\nTitle: Fe 550D old spec\nSource: old_spec_2019.pdf\nDate: 2019-03-15\nContent: Yield Strength: 550 N/mm².\n\nUser question: Can I use Fe 550D for a 20-story building foundation?\n\nAnswer:",
+  "answer": "I don't have the information needed to determine if Fe 550D is appropriate for a 20-story building foundation."
+}

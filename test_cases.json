@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "input": "Yield strength of Fe 550D 16mm?",
+    "expected_answer": "Minimum yield strength: 565 N/mm2 as per IS 1786:2008"
+  },
+  {
+    "id": 2,
+    "input": "Current price of TMT 12mm per MT?",
+    "expected_answer": "₹52,500 per MT (as of November 2024)"
+  },
+  {
+    "id": 3,
+    "input": "What's the delivery time to Ranchi for 100 MT?",
+    "expected_answer": "5-7 business days for orders up to 200 MT"
+  },
+  {
+    "id": 4,
+    "input": "Do you offer Fe 500D grade in 25mm size?",
+    "expected_answer": "I need to verify this with our inventory team. Let me connect you with our product specialist."
+  },
+  {
+    "id": 5,
+    "input": "What's the difference between Fe 500 and Fe 550D?",
+    "expected_answer": "Fe 550D has higher yield strength (565 N/mm2 vs 500 N/mm2), better ductility, and enhanced weldability, making it suitable for seismic zones. Fe 500 is standard grade for general construction. Fe 550D has ~8-10% price premium."
+  },
+  {
+    "id": 6,
+    "input": "What's the tensile strength of Fe 550D 16mm?",
+    "expected_answer": "Minimum tensile strength: 585 N/mm2 as per IS 1786:2008"
+  },
+  {
+    "id": 7,
+    "input": "Price for TMT 16mm?",
+    "expected_answer": "₹53,200 per MT (as of November 2024)"
+  },
+  {
+    "id": 8,
+    "input": "Delivery cost to Ranchi?",
+    "expected_answer": "₹2,500 per MT for Ranchi delivery"
+  },
+  {
+    "id": 9,
+    "input": "What chemicals are in TMT bars?",
+    "expected_answer": "TMT bars contain Carbon (~0.25% max), Manganese, Sulfur (max 0.055%), and Phosphorus (max 0.055%) as per IS 1786:2008"
+  },
+  {
+    "id": 10,
+    "input": "Can I use Fe 550D for a 20-story building foundation?",
+    "expected_answer": "For structural engineering questions, consult our technical team and a licensed structural engineer. Fe 550D is suitable for high-stress applications but specific use should be determined by load calculations."
+  }
+]

@@ -1,0 +1,199 @@
+[
+  {
+    "question": "Yield strength of Fe 550D 16mm?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "fe550d_16mm_spec_current",
+        "title": "Fe 550D 16mm specifications",
+        "text": "Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).",
+        "metadata": {
+          "source": "spec_sheet_2024_current.pdf",
+          "date": "2024-11-01"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).\n\nUser question: Yield strength of Fe 550D 16mm?\n\nAnswer:",
+    "answer": "The yield strength of Fe 550D 16mm is 565 N/mm\u00b2 (per IS 1786:2008) (spec_sheet_2024_current.pdf, 2024-11-01)."
+  },
+  {
+    "question": "Can I use Fe 550D for a 20-story building foundation?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "fe550d_16mm_spec_current",
+        "title": "Fe 550D 16mm specifications",
+        "text": "Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).",
+        "metadata": {
+          "source": "spec_sheet_2024_current.pdf",
+          "date": "2024-11-01"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).\n\nUser question: Can I use Fe 550D for a 20-story building foundation?\n\nAnswer:",
+    "answer": "I don't have the information to answer whether Fe 550D can be used for a 20-story building foundation."
+  },
+  {
+    "question": "Current price of TMT 12mm per MT?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "tmt_12mm_price_current",
+        "title": "TMT 12mm pricing",
+        "text": "Price: \u20b952,500 per MT.",
+        "metadata": {
+          "source": "pricing_november_2024.pdf",
+          "date": "2024-11-15"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: \u20b952,500 per MT.\n\nUser question: Current price of TMT 12mm per MT?\n\nAnswer:",
+    "answer": "The current price of TMT 12mm is \u20b952,500 per MT (pricing_november_2024.pdf, 2024-11-15)."
+  },
+  {
+    "question": "What's the delivery time to Ranchi for 100 MT?",
+    "version": "fixed",
+    "retrieved_documents": [],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: What's the delivery time to Ranchi for 100 MT?\n\nAnswer:",
+    "answer": "I do not have the information to answer your question about delivery time to Ranchi for 100 MT because no documents were provided."
+  },
+  {
+    "question": "Do you offer Fe 500D grade in 25mm size?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "fe550d_16mm_spec_current",
+        "title": "Fe 550D 16mm specifications",
+        "text": "Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).",
+        "metadata": {
+          "source": "spec_sheet_2024_current.pdf",
+          "date": "2024-11-01"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).\n\nUser question: Do you offer Fe 500D grade in 25mm size?\n\nAnswer:",
+    "answer": "I do not have information about Fe 500D grade in 25mm size."
+  },
+  {
+    "id": "592cc864-ec5c-4f25-95e3-6237a552c326",
+    "project": "Zen_Project",
+    "version": "fixed",
+    "question": "What's the current price of TMT 12mm per MT?",
+    "retrieved_documents": [
+      {
+        "id": "tmt_12mm_price_current",
+        "title": "TMT 12mm pricing",
+        "text": "Price: \u20b952,500 per MT.",
+        "metadata": {
+          "source": "pricing_november_2024.pdf",
+          "date": "2024-11-15"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: \u20b952,500 per MT.\n\nUser question: What's the current price of TMT 12mm per MT?\n\nAnswer:",
+    "answer": "Price: Price: \u20b952,500 per MT. (source: pricing_november_2024.pdf, date: 2024-11-15)"
+  },
+  {
+    "question": "What's the difference between Fe 500 and Fe 550D?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "fe550d_16mm_spec_current",
+        "title": "Fe 550D 16mm specifications",
+        "text": "Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).",
+        "metadata": {
+          "source": "spec_sheet_2024_current.pdf",
+          "date": "2024-11-01"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).\n\nUser question: What's the difference between Fe 500 and Fe 550D?\n\nAnswer:",
+    "answer": "I don't have information about Fe 500 in the retrieved documents."
+  },
+  {
+    "question": "What's the tensile strength of Fe 550D 16mm?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "fe550d_16mm_spec_current",
+        "title": "Fe 550D 16mm specifications",
+        "text": "Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).",
+        "metadata": {
+          "source": "spec_sheet_2024_current.pdf",
+          "date": "2024-11-01"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).\n\nUser question: What's the tensile strength of Fe 550D 16mm?\n\nAnswer:",
+    "answer": "I don't have the tensile strength of Fe 550D 16mm in the provided documents."
+  },
+  {
+    "question": "Price for TMT 16mm?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "tmt_12mm_price_current",
+        "title": "TMT 12mm pricing",
+        "text": "Price: \u20b952,500 per MT.",
+        "metadata": {
+          "source": "pricing_november_2024.pdf",
+          "date": "2024-11-15"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: \u20b952,500 per MT.\n\nUser question: Price for TMT 16mm?\n\nAnswer:",
+    "answer": "I do not have the price for TMT 16mm. I only have the price for TMT 12mm (pricing_november_2024.pdf, 2024-11-15)."
+  },
+  {
+    "question": "Delivery cost to Ranchi?",
+    "version": "fixed",
+    "retrieved_documents": [],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: Delivery cost to Ranchi?\n\nAnswer:",
+    "answer": "I do not have the information to answer your question about delivery costs to Ranchi, as no documents were provided."
+  },
+  {
+    "id": "fcfb2411-da5c-4a1a-9392-f3aa5dd67f91",
+    "project": "Zen_Project",
+    "version": "fixed",
+    "question": "What is the yield strength of Fe 550D 16mm bars?",
+    "retrieved_documents": [
+      {
+        "id": "fe550d_16mm_spec_current",
+        "title": "Fe 550D 16mm specifications",
+        "text": "Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).",
+        "metadata": {
+          "source": "spec_sheet_2024_current.pdf",
+          "date": "2024-11-01"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008).\n\nUser question: What is the yield strength of Fe 550D 16mm bars?\n\nAnswer:",
+    "answer": "According to spec_sheet_2024_current.pdf (date: 2024-11-01): Yield Strength: 565 N/mm\u00b2 (per IS 1786:2008)."
+  },
+  {
+    "question": "What chemicals are in TMT bars?",
+    "version": "fixed",
+    "retrieved_documents": [
+      {
+        "id": "tmt_12mm_price_current",
+        "title": "TMT 12mm pricing",
+        "text": "Price: \u20b952,500 per MT.",
+        "metadata": {
+          "source": "pricing_november_2024.pdf",
+          "date": "2024-11-15"
+        }
+      }
+    ],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: \u20b952,500 per MT.\n\nUser question: What chemicals are in TMT bars?\n\nAnswer:",
+    "answer": "I do not have the information about the chemicals in TMT bars. (No document provided this information)"
+  },
+  {
+    "id": "2ed47378-4a50-4a80-a5c5-407449870ee4",
+    "project": "Zen_Project",
+    "version": "fixed",
+    "question": "How long does delivery to Ranchi take?",
+    "retrieved_documents": [],
+    "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: How long does delivery to Ranchi take?\n\nAnswer:",
+    "answer": "I don't have information about delivery times to Ranchi in the retrieved documents."
+  }
+]

@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  zenbot-evaluator:
+    build: .
+    container_name: zenbot-evaluation
+    volumes:
+      # Mount traces directory for dynamic trace loading
+      - ./langsmith_traces:/app/langsmith_traces:ro
+      - ./traces:/app/traces:ro
+      # Mount results directory for output
+      - ./results:/app/results
+      # Mount predictions for live updates
+      - ./predictions_real.json:/app/predictions_real.json:ro
+      - ./test_cases.json:/app/test_cases.json:ro
+    environment:
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+      - LANGSMITH_PROJECT=${LANGSMITH_PROJECT}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
+    command: python evaluators.py --tests test_cases.json --predictions predictions_real.json
+
+  # Service for generating predictions from traces
+  trace-converter:
+    build: .
+    container_name: zenbot-trace-converter
+    volumes:
+      - ./langsmith_traces:/app/langsmith_traces:ro
+      - ./traces:/app/traces:ro
+      - ./test_cases.json:/app/test_cases.json:ro
+      - ./predictions_real.json:/app/predictions_real.json
+    environment:
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+      - LANGSMITH_PROJECT=${LANGSMITH_PROJECT}
+    env_file:
+      - .env
+    command: python scripts/langsmith_to_predictions.py --tests test_cases.json --trace-file combined_traces.json --out predictions_real.json
+    profiles:
+      - converter
+
+  # Service for CI checks
+  ci-checker:
+    build: .
+    container_name: zenbot-ci-checker
+    volumes:
+      - ./test_cases.json:/app/test_cases.json:ro
+      - ./predictions_real.json:/app/predictions_real.json:ro
+    command: python scripts/check_results.py
+    profiles:
+      - ci
+
+  # All-in-one service: convert traces, evaluate, check thresholds
+  full-pipeline:
+    build: .
+    container_name: zenbot-full-pipeline
+    volumes:
+      - ./langsmith_traces:/app/langsmith_traces:ro
+      - ./traces:/app/traces:ro
+      - ./test_cases.json:/app/test_cases.json:ro
+      - ./predictions_real.json:/app/predictions_real.json
+      - ./results:/app/results
+    environment:
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+      - LANGSMITH_PROJECT=${LANGSMITH_PROJECT}
+    env_file:
+      - .env
+    command: ["bash", "-c", "python scripts/langsmith_to_predictions.py --tests test_cases.json --trace-file langsmith_traces/all_traces_fixed.json --out predictions_real.json && python evaluators.py --tests test_cases.json --predictions predictions_real.json && python scripts/check_results.py"]
+    profiles:
+      - full

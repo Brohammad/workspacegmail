@@ -1,0 +1,19 @@
+{
+  "id": "592cc864-ec5c-4f25-95e3-6237a552c326",
+  "project": "Zen_Project",
+  "version": "fixed",
+  "question": "What's the current price of TMT 12mm per MT?",
+  "retrieved_documents": [
+    {
+      "id": "tmt_12mm_price_current",
+      "title": "TMT 12mm pricing",
+      "text": "Price: ₹52,500 per MT.",
+      "metadata": {
+        "source": "pricing_november_2024.pdf",
+        "date": "2024-11-15"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: tmt_12mm_price_current\nTitle: TMT 12mm pricing\nSource: pricing_november_2024.pdf\nDate: 2024-11-15\nContent: Price: ₹52,500 per MT.\n\nUser question: What's the current price of TMT 12mm per MT?\n\nAnswer:",
+  "answer": "Price: Price: ₹52,500 per MT. (source: pricing_november_2024.pdf, date: 2024-11-15)"
+}

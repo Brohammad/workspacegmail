@@ -1,0 +1,28 @@
+name: Daily ZenBot Evaluation
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # daily at 06:00 UTC
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run evaluator
+        run: |
+          python3 evaluators.py --tests test_cases.json --predictions predictions.json
+
+      - name: Run checks (fail on threshold)
+        run: |
+          python3 scripts/check_results.py

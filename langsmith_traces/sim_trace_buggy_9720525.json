@@ -1,0 +1,9 @@
+{
+  "id": "8758d3dd-3fc2-4344-a197-393106d47bf5",
+  "project": "Zen_Project",
+  "version": "buggy",
+  "question": "How long does delivery to Ranchi take?",
+  "retrieved_documents": [],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\n(No retrieved documents)\n\nUser question: How long does delivery to Ranchi take?\n\nAnswer:",
+  "answer": "I don't have information about delivery times to Ranchi in the retrieved documents."
+}

@@ -1,0 +1,14 @@
+langchain-core>=0.0.300
+langchain-google-genai>=0.0.3
+langsmith>=0.0.4
+python-dotenv>=1.0.0
+google-genai>=0.12.0
+requests>=2.31.0
+
+# Optional: For future semantic similarity evaluators
+# sentence-transformers>=2.2.0
+# scikit-learn>=1.3.0
+
+# Optional: For LLM-as-judge evaluators
+# openai>=1.0.0
+# anthropic>=0.8.0

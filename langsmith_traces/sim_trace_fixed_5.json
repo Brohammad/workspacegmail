@@ -1,0 +1,17 @@
+{
+  "question": "What's the difference between Fe 500 and Fe 550D?",
+  "version": "fixed",
+  "retrieved_documents": [
+    {
+      "id": "fe550d_16mm_spec_current",
+      "title": "Fe 550D 16mm specifications",
+      "text": "Yield Strength: 565 N/mm² (per IS 1786:2008).",
+      "metadata": {
+        "source": "spec_sheet_2024_current.pdf",
+        "date": "2024-11-01"
+      }
+    }
+  ],
+  "prompt": "You are ZenithSteel ZenBot. Answer only using the information explicitly provided in the\nretrieved documents below. Do not hallucinate. For specifications, cite the standard.\nFor prices, include the document date. If information isn't available in the retrieved\ndocuments, admit you don't have it. Provide short, factual answers and include the\ndocument source and date for each factual claim.\n\nRetrieved documents:\nDocument ID: fe550d_16mm_spec_current\nTitle: Fe 550D 16mm specifications\nSource: spec_sheet_2024_current.pdf\nDate: 2024-11-01\nContent: Yield Strength: 565 N/mm² (per IS 1786:2008).\n\nUser question: What's the difference between Fe 500 and Fe 550D?\n\nAnswer:",
+  "answer": "I don't have information about Fe 500 in the retrieved documents."
+}
