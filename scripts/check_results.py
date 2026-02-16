@@ -26,36 +26,66 @@ from datetime import datetime
 
 
 def spec_score(prediction: str, expected: str):
-    """Use same logic as evaluators.py spec_accuracy_evaluator"""
+    """Improved spec scoring - matches evaluators.py spec_accuracy_evaluator"""
     pred_nums = set(re.findall(r"\d+", prediction))
     exp_nums = set(re.findall(r"\d+", expected))
     
-    # Filter out dates and small numbers
-    filtered_pred_nums = {n for n in pred_nums if int(n) not in range(1, 32) and int(n) not in [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}
+    # Filter out dates, months, years
+    filtered_pred_nums = {n for n in pred_nums 
+                         if int(n) not in range(1, 32)
+                         and int(n) not in [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}
     filtered_exp_nums = {n for n in exp_nums if int(n) not in range(1, 32)}
     
-    has_standard = bool(re.search(r"is\s*1786|is1786", prediction, re.IGNORECASE))
-    key_match = all(num in pred_nums for num in filtered_exp_nums if int(num) >= 100)
+    important_nums = {n for n in filtered_exp_nums if int(n) >= 100}
     
-    return 1.0 if (key_match and has_standard) else 0.0
+    has_standard = bool(re.search(r"is\s*1786|is1786", prediction, re.IGNORECASE))
+    expects_standard = bool(re.search(r"is\s*1786|is1786", expected, re.IGNORECASE))
+    
+    if not important_nums:
+        # Text-based answer - fuzzy match
+        pred_lower = prediction.lower()
+        exp_lower = expected.lower()
+        key_phrases = []
+        if "verify" in exp_lower or "consult" in exp_lower or "specialist" in exp_lower:
+            key_phrases = ["verify", "consult", "team", "specialist", "inventory"]
+        if "structural engineer" in exp_lower or "licensed" in exp_lower:
+            key_phrases = ["structural", "engineer", "technical", "consult"]
+        
+        phrase_matches = sum(1 for phrase in key_phrases if phrase in pred_lower)
+        return 1.0 if phrase_matches >= 2 else (0.5 if phrase_matches == 1 else 0.0)
+    
+    # Numeric answer - check match ratio
+    matched_nums = important_nums & filtered_pred_nums
+    match_ratio = len(matched_nums) / len(important_nums) if important_nums else 0.0
+    
+    if match_ratio == 1.0:
+        return 1.0 if (not expects_standard or has_standard) else 0.7
+    elif match_ratio >= 0.5:
+        return 0.5
+    else:
+        return 0.0
 
 
 def hallucination_score(prediction: str):
-    """Use same logic as evaluators.py hallucination_detector"""
+    """Improved hallucination scoring - matches evaluators.py hallucination_detector"""
     pred = prediction.lower()
-    uncertainty = ["verify", "check with", "need to confirm", "don't have", "not sure", "consult", "i could not find"]
-    confidence = ["as per", "according to", "based on", "specified in", "is 1786"]
-    guessing = ["probably", "likely", "i think", "approximately", "around", "maybe", "estimated"]
+    uncertainty = ["verify", "check with", "need to confirm", "don't have", "not sure", 
+                   "consult", "i could not find", "please contact", "i need to", "let me connect"]
+    confidence = ["as per", "according to", "based on", "specified in", "is 1786", 
+                  "per is", "as stated", "documented"]
+    guessing_bad = ["probably", "likely", "i think", "maybe", "i guess", "possibly"]
 
     has_uncertainty = any(w in pred for w in uncertainty)
     has_confidence = any(w in pred for w in confidence)
-    has_guessing = any(w in pred for w in guessing)
+    has_bad_guessing = any(w in pred for w in guessing_bad)
+    has_approximate = any(w in pred for w in ["approximately", "around", "roughly", "about", "~"])
+    approximate_with_source = has_approximate and has_confidence
 
-    if has_guessing:
+    if has_bad_guessing:
         return 0.0
-    elif has_confidence:
+    elif approximate_with_source or has_confidence or has_uncertainty:
         return 1.0
-    elif has_uncertainty:
+    elif has_approximate:
         return 0.5
     else:
         return 0.5

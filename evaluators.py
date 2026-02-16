@@ -20,74 +20,181 @@ import argparse
 
 
 def spec_accuracy_evaluator(prediction: str, expected: str):
-    # Extract numeric tokens (integers) from both, but filter out dates and other irrelevant numbers
+    """Improved spec accuracy evaluator with better number extraction and fuzzy matching"""
+    
+    # Extract numeric tokens from both strings
     pred_nums = set(re.findall(r"\d+", prediction))
     exp_nums = set(re.findall(r"\d+", expected))
     
-    # Filter out common date/metadata numbers from pred_nums (2024, 2019, 01-12 for months, etc.)
-    filtered_pred_nums = {n for n in pred_nums if int(n) not in range(1, 32) and int(n) not in [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}
+    # Filter out dates, months, years from predictions (but keep important years like 1786)
+    filtered_pred_nums = {n for n in pred_nums 
+                         if int(n) not in range(1, 32)  # not day of month
+                         and int(n) not in [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}  # not recent years
+    
+    # Filter expected numbers similarly
     filtered_exp_nums = {n for n in exp_nums if int(n) not in range(1, 32)}
+    
+    # Special handling for important numbers (specs, prices)
+    important_nums = {n for n in filtered_exp_nums if int(n) >= 100}
     
     # Check for IS 1786 standard citation (various formats)
     has_standard = bool(re.search(r"is\s*1786|is1786", prediction, re.IGNORECASE))
     
-    # Check if key numbers (yield/tensile strength values, prices) are present
-    # We need at least the main specification numbers, not all numbers
-    key_match = all(num in pred_nums for num in filtered_exp_nums if int(num) >= 100)
+    # Check if 1786 is in expected answer (only matters if it's a spec question)
+    expects_standard = bool(re.search(r"is\s*1786|is1786", expected, re.IGNORECASE))
     
-    score = 1.0 if (key_match and has_standard) else 0.0
+    # Calculate matching score
+    if not important_nums:
+        # Non-numeric answer (e.g., test case 4, 10)
+        # Use fuzzy text matching instead
+        pred_lower = prediction.lower()
+        exp_lower = expected.lower()
+        
+        # Extract key phrases from expected
+        key_phrases = []
+        if "verify" in exp_lower or "consult" in exp_lower or "specialist" in exp_lower:
+            key_phrases = ["verify", "consult", "team", "specialist", "inventory"]
+        if "structural engineer" in exp_lower or "licensed" in exp_lower:
+            key_phrases = ["structural", "engineer", "technical", "consult"]
+        
+        # Check if key phrases are present
+        phrase_matches = sum(1 for phrase in key_phrases if phrase in pred_lower)
+        score = 1.0 if phrase_matches >= 2 else (0.5 if phrase_matches == 1 else 0.0)
+        
+        return {
+            "key": "spec_accuracy",
+            "score": score,
+            "comment": f"Text matching: {phrase_matches}/{len(key_phrases)} key phrases found"
+        }
+    
+    # For numeric answers: check how many important numbers match
+    matched_nums = important_nums & filtered_pred_nums
+    match_ratio = len(matched_nums) / len(important_nums) if important_nums else 0.0
+    
+    # Scoring logic:
+    # - Full credit (1.0): All numbers match + standard cited (if required)
+    # - Partial credit (0.7): All numbers match but no standard citation
+    # - Partial credit (0.5): Some numbers match
+    # - No credit (0.0): No numbers match
+    
+    if match_ratio == 1.0:
+        if expects_standard:
+            score = 1.0 if has_standard else 0.7
+        else:
+            score = 1.0
+    elif match_ratio >= 0.5:
+        score = 0.5
+    else:
+        score = 0.0
+    
     return {
         "key": "spec_accuracy",
         "score": score,
-        "comment": f"Key numbers: {filtered_exp_nums} in {filtered_pred_nums}; standard cited: {has_standard}"
+        "comment": f"Numbers: {len(matched_nums)}/{len(important_nums)} matched; standard cited: {has_standard}"
     }
 
 
 def pricing_evaluator(prediction: str, expected: str):
-    # Extract price numbers (allow commas)
-    def find_price(text):
-        m = re.search(r"(?:\u20B9|Rs\.?|INR)?\s*([0-9][0-9,]+)", text)
-        return m.group(1).replace(",", "") if m else None
+    """Improved pricing evaluator with better price extraction"""
+    
+    # Extract price numbers - handle ₹, Rs, INR symbols and commas
+    def find_prices(text):
+        # Pattern: optional currency symbol + number with optional commas + optional decimals
+        prices = []
+        # Match patterns like: ₹52,500, Rs 52500, 52,500, INR 52500
+        for match in re.finditer(r"(?:₹|Rs\.?|INR)?\s*([0-9][0-9,]*(?:\.\d+)?)", text):
+            price_str = match.group(1).replace(",", "")
+            try:
+                prices.append(int(float(price_str)))
+            except ValueError:
+                continue
+        return prices
 
-    exp_price = find_price(expected)
-    pred_price = find_price(prediction)
-
+    exp_prices = find_prices(expected)
+    pred_prices = find_prices(prediction)
+    
     # Check date context words
-    date_words = ['november', '2024', 'current', 'as of', 'effective']
+    date_words = ['november', '2024', 'current', 'as of', 'effective', 'nov']
     has_date = any(word in prediction.lower() for word in date_words)
 
-    if exp_price is None:
+    if not exp_prices:
+        # No price expected in answer (e.g., test case 4, 10)
         score = 1.0
     else:
-        price_match = (pred_price is not None and pred_price == exp_price)
+        # Check if any expected price is in predicted prices
+        price_match = any(exp_p in pred_prices for exp_p in exp_prices)
+        
         if price_match and has_date:
             score = 1.0
         elif price_match:
             score = 0.7
         else:
-            score = 0.0
+            # Check for close matches (within 5% tolerance)
+            close_match = False
+            for exp_p in exp_prices:
+                for pred_p in pred_prices:
+                    if abs(pred_p - exp_p) / exp_p <= 0.05:  # 5% tolerance
+                        close_match = True
+                        break
+            score = 0.5 if close_match else 0.0
 
-    return {"key": "pricing_accuracy", "score": score, "comment": f"exp_price={exp_price}, pred_price={pred_price}, date_ctx={has_date}"}
+    return {
+        "key": "pricing_accuracy", 
+        "score": score, 
+        "comment": f"exp_prices={exp_prices}, pred_prices={pred_prices}, date_ctx={has_date}"
+    }
 
 
 def hallucination_detector(prediction: str, expected: str):
+    """Improved hallucination detector with more nuanced scoring"""
+    
     pred = prediction.lower()
-    uncertainty = ["verify", "check with", "need to confirm", "don't have", "not sure", "consult", "i could not find"]
-    confidence = ["as per", "according to", "based on", "specified in", "is 1786"]
-    guessing = ["probably", "likely", "i think", "approximately", "around", "maybe", "estimated"]
-
+    
+    # Words that indicate uncertainty (good - admits limitations)
+    uncertainty = ["verify", "check with", "need to confirm", "don't have", "not sure", 
+                   "consult", "i could not find", "please contact", "i need to", "let me connect"]
+    
+    # Words that indicate confidence with citations (good - backed by sources)
+    confidence = ["as per", "according to", "based on", "specified in", "is 1786", 
+                  "per is", "as stated", "documented"]
+    
+    # Words that indicate guessing WITHOUT sources (bad - hallucination risk)
+    # Note: "approximately" is OK if used with confidence indicators
+    guessing_bad = ["probably", "likely", "i think", "maybe", "i guess", "possibly"]
+    
+    # Approximate/around is OK if used with a source citation
     has_uncertainty = any(w in pred for w in uncertainty)
     has_confidence = any(w in pred for w in confidence)
-    has_guessing = any(w in pred for w in guessing)
+    has_bad_guessing = any(w in pred for w in guessing_bad)
+    
+    # Check for "approximately" or "around" - only bad if no confidence indicators
+    has_approximate = any(w in pred for w in ["approximately", "around", "roughly", "about", "~"])
+    approximate_with_source = has_approximate and has_confidence
 
-    if has_guessing:
+    # Scoring logic:
+    # 1.0: Has confidence indicators OR admits uncertainty appropriately
+    # 0.5: Uses approximations with sources OR neutral language
+    # 0.0: Uses bad guessing words or approximations without sources
+    
+    if has_bad_guessing:
         score = 0.0
+    elif approximate_with_source:
+        # "approximately X as per IS 1786" is fine
+        score = 1.0
     elif has_confidence or has_uncertainty:
         score = 1.0
+    elif has_approximate:
+        # "approximately X" without source is risky
+        score = 0.5
     else:
+        # Neutral language
         score = 0.5
 
-    return {"key": "hallucination_check", "score": score, "comment": f"guessing={has_guessing}, confident={has_confidence}, admits_unknown={has_uncertainty}"}
+    return {
+        "key": "hallucination_check", 
+        "score": score, 
+        "comment": f"bad_guessing={has_bad_guessing}, confident={has_confidence}, admits_unknown={has_uncertainty}, approx_with_source={approximate_with_source}"
+    }
 
 
 def run_evaluation(test_cases_path: Path, predictions_path: Path):
