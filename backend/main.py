@@ -12,9 +12,18 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Load environment variables from parent directory .env file
+# Load environment variables from parent directory .env file FIRST
 env_path = Path(__file__).parent.parent / '.env'
 load_dotenv(dotenv_path=env_path)
+
+# Explicitly ensure critical env vars are in os.environ
+# This is needed because some libraries check os.environ directly
+if not os.environ.get("LANGSMITH_API_KEY"):
+    from dotenv import dotenv_values
+    env_vars = dotenv_values(env_path)
+    for key in ["LANGSMITH_API_KEY", "LANGSMITH_PROJECT", "LANGCHAIN_TRACING_V2", "GEMINI_API_KEY", "GOOGLE_API_KEY"]:
+        if key in env_vars and not os.environ.get(key):
+            os.environ[key] = env_vars[key]
 
 # Add parent directory to path to import zenbot
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

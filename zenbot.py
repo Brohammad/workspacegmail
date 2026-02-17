@@ -282,7 +282,7 @@ def run_query(question: str, version: str, tracer=None) -> Dict[str, str]:
         raise RuntimeError("Please set GEMINI_API_KEY in the .env file before running.")
 
     # Create tracer if not provided
-    callbacks = [tracer] if tracer is not None else None
+    callbacks = [tracer] if tracer is not None else []
 
     # NOTE: The class and parameter names for the langchain-google-genai wrapper can
     # differ between releases. This code uses a plausible constructor: GoogleGemini(...)
@@ -297,7 +297,8 @@ def run_query(question: str, version: str, tracer=None) -> Dict[str, str]:
     # Invoke the chat model with a single human message containing the prompt.
     try:
         # ChatGoogleGenerativeAI.invoke expects a sequence of messages; using a human-only message here.
-        res = llm.invoke([("human", prompt)])
+        # Pass callbacks to ensure LangSmith tracing works
+        res = llm.invoke([("human", prompt)], config={"callbacks": callbacks} if callbacks else None)
         # res is an AIMessage; extract textual content. It may be a string or a list of content blocks.
         if hasattr(res, "content"):
             if isinstance(res.content, str):

@@ -9,25 +9,59 @@ from pathlib import Path
 env_path = Path(__file__).parent.parent / '.env'
 load_dotenv(dotenv_path=env_path)
 
+# Explicitly ensure LangSmith env vars are set in os.environ
+# This is needed because LangChain looks for them in os.environ
+if not os.environ.get("LANGSMITH_API_KEY"):
+    from dotenv import dotenv_values
+    env_vars = dotenv_values(env_path)
+    if "LANGSMITH_API_KEY" in env_vars:
+        os.environ["LANGSMITH_API_KEY"] = env_vars["LANGSMITH_API_KEY"]
+    if "LANGSMITH_PROJECT" in env_vars:
+        os.environ["LANGSMITH_PROJECT"] = env_vars["LANGSMITH_PROJECT"]
+
 # Add parent directory to import zenbot
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
     from zenbot import build_documents, run_query
     from evaluators import spec_accuracy_evaluator, pricing_evaluator, hallucination_detector
+    from langchain_core.tracers.langchain import LangChainTracer
+    from langsmith import Client as LangSmithClient
 except ImportError as e:
     print(f"Warning: Could not import zenbot modules: {e}")
     build_documents = None
     run_query = None
+    LangChainTracer = None
+    LangSmithClient = None
 
 
 class ZenBotService:
     """Wrapper service for ZenBot to use in API context"""
     
     def __init__(self):
-        """Initialize ZenBot with document knowledge base"""
+        """Initialize ZenBot with document knowledge base and LangSmith tracer"""
         self.documents = build_documents() if build_documents else {}
         self.initialized = run_query is not None
+        
+        # Initialize LangSmith tracer
+        self.tracer = None
+        if LangChainTracer is not None and LangSmithClient is not None:
+            try:
+                # Check if LANGSMITH_API_KEY is available
+                langsmith_key = os.environ.get("LANGSMITH_API_KEY")
+                project = os.environ.get("LANGSMITH_PROJECT", "Zen_Project")
+                
+                if langsmith_key:
+                    # Create LangSmith client explicitly with API key
+                    client = LangSmithClient(api_key=langsmith_key)
+                    # Create tracer with explicit client
+                    self.tracer = LangChainTracer(project_name=project, client=client)
+                    print(f"✅ LangSmith tracer initialized for project: {project}")
+                else:
+                    print("⚠️  Warning: LANGSMITH_API_KEY not found in environment")
+            except Exception as e:
+                print(f"⚠️  Warning: Could not initialize LangSmith tracer: {e}")
+        
         if self.initialized:
             print("✅ ZenBot service initialized successfully")
         else:
@@ -48,8 +82,8 @@ class ZenBotService:
             return "ZenBot is currently unavailable. Please check configuration and ensure GEMINI_API_KEY is set."
         
         try:
-            # Use zenbot's run_query function
-            result = run_query(query, version=mode)
+            # Use zenbot's run_query function with tracer for LangSmith integration
+            result = run_query(query, version=mode, tracer=self.tracer)
             return result.get("answer", "No response generated")
             
         except Exception as e:
