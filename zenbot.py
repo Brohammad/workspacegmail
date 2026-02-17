@@ -277,7 +277,7 @@ def run_query(question: str, version: str, tracer=None) -> Dict[str, str]:
 
     # Instantiate Gemini LLM. We pass the tracer via callbacks if available so LangSmith
     # gets the events. The exact argument names may vary with package versions.
-    gemini_api_key = os.environ.get("GEMINI_API_KEY")
+    gemini_api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not gemini_api_key or gemini_api_key == "your_gemini_api_key_here":
         raise RuntimeError("Please set GEMINI_API_KEY in the .env file before running.")
 
@@ -289,10 +289,10 @@ def run_query(question: str, version: str, tracer=None) -> Dict[str, str]:
     # which accepts `model` or `model_name` and `api_key`, and `callbacks`.
     # Instantiate the chat model. The ChatGoogleGenerativeAI class accepts `model` and `api_key`.
     try:
-        llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", api_key=gemini_api_key)
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=gemini_api_key)
     except TypeError:
         # fallback parameter name
-        llm = ChatGoogleGenerativeAI(model_name="gemini-2.0-flash", api_key=gemini_api_key)
+        llm = ChatGoogleGenerativeAI(model_name="gemini-2.5-flash", google_api_key=gemini_api_key)
 
     # Invoke the chat model with a single human message containing the prompt.
     try:

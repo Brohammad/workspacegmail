@@ -1,6 +1,42 @@
 version: '3.8'
 
 services:
+  # NEW: FastAPI backend for web interface
+  api-backend:
+    build: .
+    container_name: zenbot-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ./.env:/app/.env:ro
+    environment:
+      - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+      - LANGSMITH_PROJECT=${LANGSMITH_PROJECT}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
+    working_dir: /app/backend
+    command: python main.py
+    profiles:
+      - web
+
+  # NEW: React frontend
+  frontend:
+    image: node:18-alpine
+    container_name: zenbot-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - api-backend
+    profiles:
+      - web
+
   zenbot-evaluator:
     build: .
     container_name: zenbot-evaluation
@@ -65,6 +101,7 @@ services:
       - LANGSMITH_PROJECT=${LANGSMITH_PROJECT}
     env_file:
       - .env
+
     command: ["bash", "-c", "python scripts/langsmith_to_predictions.py --tests test_cases.json --trace-file langsmith_traces/all_traces_fixed.json --out predictions_real.json && python evaluators.py --tests test_cases.json --predictions predictions_real.json && python scripts/check_results.py"]
     profiles:
       - full
